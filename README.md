@@ -6,8 +6,8 @@ CS487 Database Management Systems Implementation
 Part 1: In the beginning, data was created. 
 
 In the following screenshot you can see that we generated new csv files inside our VM. 
-https://github.com/Danford-School/DB_Management/blob/main/21.PNG
 
+https://github.com/Danford-School/DB_Management/blob/main/21.PNG
 https://github.com/Danford-School/DB_Management/blob/main/22.PNG
 
 In the following screenshot you can see a sample of the data generated. In this case we only used three of the columns because all of the data together looks unwieldy. 
