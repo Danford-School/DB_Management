@@ -12,9 +12,11 @@ https://github.com/Danford-School/DB_Management/blob/main/21.PNG
 https://github.com/Danford-School/DB_Management/blob/main/22.PNG
 
 In the following screenshot you can see a sample of the data generated. In this case we only used three of the columns because all of the data together looks unwieldy. 
+
 https://github.com/Danford-School/DB_Management/blob/main/23.PNG
 
 In the following screenshot you can see a sample of all of the data together. As we mentioned, it does look unwieldy, but all of the data is there. 
+
 https://github.com/Danford-School/DB_Management/blob/main/24.PNG
 
 
