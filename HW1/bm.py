@@ -17,17 +17,28 @@ class clock:
     def pickVictim(self, buffer):
         # find a victim page using the clock algorithm and return the frame number
         # if all pages in the buffer pool are pinned, raise the exception BufferPoolFullError
-        current = 0
+        county = 0
+        for iii in buffer:
+            if iii.frameNumber == -1:
+                iii.frameNumber = county
+                return iii
+            county += 1
         for i in buffer:
+            # if self.current == len(buffer):
+                # raise BufferPoolFullError("The buffer is full :(")
             if i.pinCount >= 1:
                 self.current += 1
                 continue
             else:
                 self.current += 1
                 i.referenced = 0
+                continue
+        county = 0
         for ii in buffer:
             if ii.pinCount == 0 and ii.referenced == 0:
-                return ii.currentPage.pageNo
+                ii.frameNumber = county
+                return ii
+            county += 1
 
 
 # ==================================================================================================
@@ -45,38 +56,45 @@ class bufferManager:
     # ------------------------------------------------------------
 
     def pin(self, pageNumber, new=False):
-
+        count = 0
         for i in self.buffer:
             if i.currentPage.pageNo == pageNumber:
                 i.pinCount += 1
                 i.referenced = 1
-                i.currentPage.content = pageNumber
+               # i.currentPage.content = pageNumber
                 return i
 
         if new:
             victim_frame = self.clk.pickVictim(self.buffer)
             for i in self.buffer:
-                if i.frameNumber == victim_frame:
+                # if i == victim_frame:
+                if i.frameNumber == victim_frame.frameNumber:
+                    i.currentPage.content = "content {}".format(pageNumber)
                     if i.dirtyBit:
                         self.dm.writePageToDisk(i.currentPage)
                     i.pinCount = 1
                     i.dirtyBit = False
                     i.currentPage.pageNo = pageNumber
                     i.referenced = 1
-                    i.currentPage.content = pageNumber
+                    i.frameNumber = count
+                #    i.currentPage.content = pageNumber
                     return i
+                count += 1
         if not new:
             victim_frame = self.clk.pickVictim(self.buffer)
             for i in self.buffer:
-                if i.frameNumber == victim_frame:
+                # # if i == victim_frame:
+                if i.frameNumber == victim_frame.frameNumber:
                     if i.dirtyBit:
-                        self.dm.writePageToDisk(self.dm)
+                        self.dm.writePageToDisk(i.currentPage)
                     i.pinCount = 1
                     i.dirtyBit = False
                     i.currentPage = self.dm.readPageFromDisk(pageNumber)
+                    i.frameNumber = count
                     i.referenced = 1
-                    i.currentPage.content = pageNumber
+                    i.currentPage.pageNo = pageNumber
                     return i
+                count += 1
         # given a page number, pin the page in the buffer
         # if new = True, the page is new so no need to read it from disk
         # if new = False, the page already exists. So read it from disk if it is not already in the pool.
