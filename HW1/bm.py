@@ -18,11 +18,11 @@ class clock:
         # find a victim page using the clock algorithm and return the frame number
         # if all pages in the buffer pool are pinned, raise the exception BufferPoolFullError
         county = 0
-        for iii in buffer:
-            if iii.frameNumber == -1:
-                iii.frameNumber = county
-                return iii
-            county += 1
+        #for iii in buffer:
+        #    if iii.frameNumber == -1:
+        #        iii.frameNumber = county
+        #        return iii
+        #    county += 1
         for i in buffer:
             # if self.current == len(buffer):
                 # raise BufferPoolFullError("The buffer is full :(")
@@ -36,8 +36,8 @@ class clock:
         county = 0
         for ii in buffer:
             if ii.pinCount == 0 and ii.referenced == 0:
-                ii.frameNumber = county
-                return ii
+                #ii.frameNumber = county
+                return ii.frameNumber
             county += 1
 
 
@@ -60,40 +60,44 @@ class bufferManager:
         for i in self.buffer:
             if i.currentPage.pageNo == pageNumber:
                 i.pinCount += 1
-                i.referenced = 1
+               # i.referenced = 1
                # i.currentPage.content = pageNumber
-                return i
+                return i.currentPage
 
         if new:
             victim_frame = self.clk.pickVictim(self.buffer)
             for i in self.buffer:
                 # if i == victim_frame:
-                if i.frameNumber == victim_frame.frameNumber:
-                    i.currentPage.content = "content {}".format(pageNumber)
+                if i.frameNumber == victim_frame:
+                    #i.currentPage.content = "content {}".format(pageNumber)
                     if i.dirtyBit:
                         self.dm.writePageToDisk(i.currentPage)
-                    i.pinCount = 1
+
+                    i.pinCount += 1
                     i.dirtyBit = False
+		   # i.currentPage.content = "content {}".format(pageNumber)
                     i.currentPage.pageNo = pageNumber
+                   # i.currentPage.content = "content {}".format(pageNumber)
                     i.referenced = 1
-                    i.frameNumber = count
+                    #i.frameNumber = count
                 #    i.currentPage.content = pageNumber
-                    return i
+                    print(i.currentPage.pageNo)
+                    return i.currentPage
                 count += 1
         if not new:
             victim_frame = self.clk.pickVictim(self.buffer)
             for i in self.buffer:
                 # # if i == victim_frame:
-                if i.frameNumber == victim_frame.frameNumber:
+                if i.frameNumber == victim_frame:
                     if i.dirtyBit:
                         self.dm.writePageToDisk(i.currentPage)
-                    i.pinCount = 1
+                    i.pinCount += 1
                     i.dirtyBit = False
                     i.currentPage = self.dm.readPageFromDisk(pageNumber)
-                    i.frameNumber = count
+                    #i.frameNumber = count
                     i.referenced = 1
                     i.currentPage.pageNo = pageNumber
-                    return i
+                    return i.currentPage
                 count += 1
         # given a page number, pin the page in the buffer
         # if new = True, the page is new so no need to read it from disk
@@ -104,10 +108,9 @@ class bufferManager:
     def unpin(self, pageNumber, dirty):
         for i in self.buffer:
             if i.currentPage.pageNo == pageNumber:
-                if dirty:
-                    i.dirtyBit = True
+                i.dirtyBit = i.dirtyBit or dirty
                 i.pinCount -= 1
-            break
+            #break
 
     def flushPage(self, pageNumber):
         # Ignore this function, it is not needed for this homework.
