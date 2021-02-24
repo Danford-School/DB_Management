@@ -26,6 +26,8 @@ With regards to data generation, we initially started by trying to find a data g
 
 We will be working with Postgres because it is a system that we are familiar with due to taking the Intro to Databases course offered at PSU. Also, we feel that it is a very intuitive and user friendly system.
 
+2/23/2021 We added our experiment design document. 
+
 The screen shots presented above demonstrate our ability to load data into the postgres database on our virtual machine in the google cloud.
 
 The primary lesson we learned was that data generation is a valuable skill in itself. It requires a fair amount of knowledge and experience in coding, to be able to generate the necessary data required to test a database. Furthermore, knowing what data you need to generate and what properties you want to test for are integral to validating the efficacy of a database. The primary issue we encountered during this process was with regards to the data generation. It took a substantial amount of time to make the script work and generate the appropriate data. Mainly, it was the convert function that caused this backlog.
