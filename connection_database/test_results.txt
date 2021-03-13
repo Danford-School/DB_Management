@@ -1,0 +1,18 @@
+exp 5 query 20, tenk: 
+time =  0.2877945899963379
+exp 5 query 20, 100k: 
+time =  0.998831033706665
+exp 5 query 20, 500k: 
+time =  1.4971950054168701
+exp 5 query 21, 10k: 
+time =  2.33201003074646
+exp 5 query 21, 100k: 
+time =  3.0422565937042236
+exp 5 query 21, 500k: 
+time =  6.737115383148193
+exp 5 query 22, 10k: 
+time =  7.199644088745117
+exp 5 query 22, 100k: 
+time =  7.912285327911377
+exp 5 query 22, 500k: 
+time =  12.113398551940918
